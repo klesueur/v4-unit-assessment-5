@@ -1,11 +1,13 @@
 require('dotenv').config();
 const massive = require('massive');
 const express = require('express');
+const session = require('express-session');
 const userCtrl = require('./controllers/user');
 const postCtrl = require('./controllers/posts');
 
+
 const app = express();
-const { SERVER_PORT, CONNECTION_STRING } = process.env;
+const { SERVER_PORT, CONNECTION_STRING, SESSION_SECRET } = process.env;
 
 massive({
     connectionString: CONNECTION_STRING,
@@ -18,6 +20,12 @@ massive({
 });
 
 app.use(express.json());
+app.use(session({
+    resave: false,
+    saveUninitialized: true,
+    secret: SESSION_SECRET,
+    cookie: { maxAge: 1000 * 60 * 60 * 24 } // 24 hours
+}))
 
 
 //Auth Endpoints
