@@ -1,4 +1,5 @@
 module.exports = {
+
     readPosts: async (req, res) => {
       let { id } = req.session.user;
       let { mine, search, oldest } = req.query;
@@ -37,13 +38,16 @@ module.exports = {
         }
       }
     },
+
     createPost: (req, res) => {
       //code here
     },
+
     readPost: (req, res) => {
       req.app.get('db').post.read_post(req.params.id)
         .then(post => post[0] ? res.status(200).send(post[0]) : res.status(200).send({}))
     },
+    
     deletePost: (req, res) => {
       req.app.get('db').post.delete_post(req.params.id)
         .then(_ => res.sendStatus(200))
